@@ -1,0 +1,15 @@
+{
+  "name": "rr-routes",
+  "version": "0.0.0",
+  "main": "rr-routes.mjs",
+  "types": "rr-routes.d.ts",
+  "peerDependencies": {
+    "react": ">=16.8"
+  },
+  "devDependencies": {
+    "@remix-run/router": "*",
+    "@types/react": "*",
+    "react": "*",
+    "react-router-dom": "*"
+  }
+}

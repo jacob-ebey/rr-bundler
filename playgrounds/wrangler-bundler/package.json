@@ -1,0 +1,44 @@
+{
+  "private": true,
+  "name": "@playground/wrangler-bundler",
+  "type": "module",
+  "sidEffects": false,
+  "rr-bundler": {
+    "server": {
+      "platform": "neutral",
+      "mainFields": [
+        "module",
+        "browser",
+        "main"
+      ],
+      "conditions": [
+        "worker",
+        "browser"
+      ],
+      "externals": [
+        "__STATIC_CONTENT_MANIFEST"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "rr-bundler build",
+    "dev": "npm run build && concurrently \"npm:dev:*\"",
+    "dev:rr": "rr-bundler --watch -- http://127.0.0.1:8787",
+    "dev:server": "wrangler dev --local"
+  },
+  "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.3.0",
+    "@cloudflare/workers-types": "^4.20221111.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.7.0",
+    "rr-routes": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "concurrently": "^7.6.0",
+    "rr-bundler": "*",
+    "wrangler": "^2.8.1"
+  }
+}

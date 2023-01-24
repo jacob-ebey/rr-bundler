@@ -1,0 +1,7 @@
+name = "parcel-playground"
+main = "build/entry.server.js"
+compatibility_date = "2022-01-23"
+compatibility_flags = ["streams_enable_constructors"]
+
+[site]
+bucket = "./public"

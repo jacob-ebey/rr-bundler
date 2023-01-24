@@ -1,0 +1,4 @@
+name = "parcel-playground"
+main = "app/entry.server.js"
+compatibility_date = "2022-01-23"
+compatibility_flags = ["streams_enable_constructors"]
