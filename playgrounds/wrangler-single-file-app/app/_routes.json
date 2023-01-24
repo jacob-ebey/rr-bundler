@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "include": ["/", "/about"],
+  "exclude": [
+    "/routes/*",
+    "/entry.browser.js",
+    "/routes.js",
+    "/copy-do-not-edit-rr-routes.js"
+  ]
+}

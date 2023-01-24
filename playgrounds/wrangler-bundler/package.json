@@ -2,24 +2,6 @@
   "private": true,
   "name": "@playground/wrangler-bundler",
   "type": "module",
-  "sidEffects": false,
-  "rr-bundler": {
-    "server": {
-      "platform": "neutral",
-      "mainFields": [
-        "module",
-        "browser",
-        "main"
-      ],
-      "conditions": [
-        "worker",
-        "browser"
-      ],
-      "externals": [
-        "__STATIC_CONTENT_MANIFEST"
-      ]
-    }
-  },
   "scripts": {
     "build": "rr-bundler build",
     "dev": "npm run build && concurrently \"npm:dev:*\"",
@@ -40,5 +22,23 @@
     "concurrently": "^7.6.0",
     "rr-bundler": "*",
     "wrangler": "^2.8.1"
+  },
+  "sideEffects": false,
+  "rr-bundler": {
+    "server": {
+      "platform": "neutral",
+      "mainFields": [
+        "module",
+        "browser",
+        "main"
+      ],
+      "conditions": [
+        "worker",
+        "browser"
+      ],
+      "externals": [
+        "__STATIC_CONTENT_MANIFEST"
+      ]
+    }
   }
 }

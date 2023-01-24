@@ -201,7 +201,7 @@ function readConfig(cwd) {
   const packageJsonPath = path.join(cwd, "package.json");
   const pkg = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 
-  const serverModuleFormat = pkg.type === "module" ? "esm" : "cjs";
+  let serverModuleFormat = pkg.type === "module" ? "esm" : "cjs";
 
   const config = Object.assign(
     {
@@ -245,6 +245,7 @@ function readConfig(cwd) {
   const serverMainFields = config.server.mainFields;
   const serverExternals = config.server.externals || undefined;
   const bundleNodeModules = config.server.bundleNodeModules || false;
+  const serverOutputFormat = config.server.outputFormat || serverModuleFormat;
 
   if (!["node", "browser", "neutral"].includes(serverPlatform)) {
     throw new KnownError(
@@ -273,7 +274,7 @@ function readConfig(cwd) {
       conditions: serverConditions,
       mainFields: serverMainFields,
       externals: serverExternals,
-      outputFormat: serverModuleFormat,
+      outputFormat: serverOutputFormat,
       platform: serverPlatform,
       bundleNodeModules,
     },

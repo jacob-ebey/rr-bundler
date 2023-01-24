@@ -1,9 +1,37 @@
 import * as React from "react";
 import { html } from "htm/react";
 import { isRouteErrorResponse } from "@remix-run/router";
-import { Outlet, UNSAFE_DataRouterContext } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  UNSAFE_DataRouterContext,
+  json,
+  useLoaderData,
+} from "react-router-dom";
+import { defineRoutes } from "rr-routes";
 
-export default function Root() {
+export default defineRoutes([
+  {
+    id: "root",
+    element: React.createElement(Root),
+    children: [
+      {
+        id: "home",
+        index: true,
+        element: React.createElement(HelloWorld),
+        loader: homeLoader,
+      },
+      {
+        id: "about",
+        path: "about",
+        element: React.createElement(About),
+        loader: aboutLoader,
+      },
+    ],
+  },
+]);
+
+function Root() {
   const context = React.useContext(UNSAFE_DataRouterContext);
 
   let hydrateScript = "";
@@ -57,59 +85,6 @@ export default function Root() {
           }}
         ></script>
 
-        <link rel="modulepreload" href="/entry.browser.js" />
-        <link rel="modulepreload" href="/routes.js" />
-        <link rel="modulepreload" href="/routes/__root.js" />
-
-        <link rel="modulepreload" href="/copy-do-not-edit-rr-routes.js" />
-
-        <link rel="modulepreload" href="https://esm.sh/v104/react@18.2.0" />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/react-dom@18.2.0/client"
-        />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/v104/react-router-dom@6.7.0"
-        />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/stable/react@18.2.0/es2022/react.js"
-        />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/v104/react-dom@18.2.0/es2022/client.js"
-        />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/v104/react-router-dom@6.7.0/es2022/react-router-dom.js"
-        />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/v104/scheduler@0.23.0/es2022/scheduler.js"
-        />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/v104/react-router@6.7.0/es2022/react-router.js"
-        />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/v104/@remix-run/router@1.3.0/es2022/router.js"
-        />
-        <link rel="modulepreload" href="https://esm.sh/v104/htm@3.1.1/react" />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/v104/@remix-run/router@1.3.0"
-        />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/v104/htm@3.1.1/es2022/react.js"
-        />
-        <link
-          rel="modulepreload"
-          href="https://esm.sh/v104/htm@3.1.1/es2022/htm.js"
-        />
-
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML=${{ __html: hydrateScript }}
@@ -144,4 +119,48 @@ function serializeErrors(errors) {
     }
   }
   return serialized;
+}
+
+function homeLoader() {
+  return json({ message: "Hello World!!" });
+}
+
+function HelloWorld() {
+  /** @type {{ message: string }} */
+  const { message } = useLoaderData();
+  const [count, setCount] = React.useState(0);
+
+  return html`
+    <main>
+      <h1>${message}</h1>
+      <p>
+        <button onClick=${() => setCount(count + 1)}>
+          Increment: ${count}
+        </button>
+      </p>
+      <${Link} to="/about">About</${Link}>
+    </main>
+  `;
+}
+
+function aboutLoader() {
+  return json({ message: "About :D" });
+}
+
+function About() {
+  /** @type {{ message: string }} */
+  const { message } = useLoaderData();
+  const [count, setCount] = React.useState(0);
+
+  return html`
+    <main>
+      <h1>${message}</h1>
+      <p>
+        <button onClick=${() => setCount(count + 1)}>
+          Increment: ${count}
+        </button>
+      </p>
+      <${Link} to="/">Home</${Link}>
+    </main>
+  `;
 }
